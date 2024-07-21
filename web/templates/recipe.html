@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h1>Recetas de Flanes</h1>
+    <!-- Menú de categorías -->
+    <div class="mb-3">
+        <form method="get" action="{% url 'recipe' %}">
+            <div class="form-group">
+                <label for="category">Filtrar por categoría:</label>
+                <select id="category" name="category" class="form-control">
+                    <option value="">Todos</option>
+                    {% for category in categories %}
+                    <option value="{{ category }}" {% if category == request.GET.category %}selected{% endif %}>{{ category }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-danger mt-2">Filtrar</button>
+        </form>
+    </div>
+
+    <!-- Lista de flanes -->
+    <section name="cards" class="bg-light">
+        <div class="row">
+            {% for flan in flans %}
+            <div class="col-md-3 col-xs-12 d-flex g-2 justify-content-center align-items-center ml-2">
+                <div class="card" style="width: 18rem; margin-bottom: 70px;">
+                    <img src="{{ flan.image_url }}" class="card-img-top" alt="..." style="width: 287px; height: 200px;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ flan.name }}</h5>
+                    </div>
+                    <div class="mb-3 px-3">
+                        <a href="{% url 'recipe_detail' slug=flan.slug %}" type="submit"
+                            class="btn btn-danger">Receta</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+{% endblock %}
